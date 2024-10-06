@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Solution;
 using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 
 var token = "9751045c-65f4-4949-8cf3-9361536d9a5512f09d25-7095-465c-8f74-4e9dd7919206";
 
@@ -11,7 +9,7 @@ for (int i = 0; i < 16; i++)
 {
     matrix[i] = new int[16];
     for (int j = 0; j < 16; j++)
-        matrix[i][j] = 6;
+        matrix[i][j] = -1;
 }
 
 var step = 166.66;
