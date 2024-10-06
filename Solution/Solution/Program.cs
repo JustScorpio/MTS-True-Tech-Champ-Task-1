@@ -1,13 +1,18 @@
 ﻿using Newtonsoft.Json;
 using Solution;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 var token = "9751045c-65f4-4949-8cf3-9361536d9a5512f09d25-7095-465c-8f74-4e9dd7919206";
 
-var matrix = new int[16,16];
+var matrix = new int[16][];
 for (int i = 0; i < 16; i++)
+{
+    matrix[i] = new int[16];
     for (int j = 0; j < 16; j++)
-        matrix[i, j] = -1;
+        matrix[i][j] = 6;
+}
 
 var step = 166.66;
 var cellsCount = 256;
@@ -116,9 +121,9 @@ while (cellsCount > 0)
     if (cordX < 0) cordX = 0;
     if (cordY < 0) cordY = 0;
 
-    if (matrix[cordY, cordX] == -1)
+    if (matrix[cordY][cordX] == -1)
     {
-        matrix[cordY, cordX] = cellType;
+        matrix[cordY][cordX] = cellType;
         cellsCount -= 1;
         Console.WriteLine(string.Format($"Cell: x = {cordX}; y = {cordY} has type {cellType}. Cells to go: {cellsCount}"));
     }
@@ -174,6 +179,5 @@ while (cellsCount > 0)
     #endregion
 }
 
-var jsonMatrix = JsonContent.Create(matrix);
-var score = client.PostAsync("http://127.0.0.1:8801/api/v1/matrix/send?token=" + token, jsonMatrix).Result.Content.ReadAsStringAsync();
-Console.WriteLine(score + "/254");
+var score = client.PostAsync("http://127.0.0.1:8801/api/v1/matrix/send?token=" + token, JsonContent.Create(matrix)).Result.Content.ReadAsStringAsync().Result;
+Console.WriteLine(score);
