@@ -17,6 +17,8 @@ var cellsCount = 256;
 
 var client = new HttpClient(new HttpClientHandler());
 
+var watch = System.Diagnostics.Stopwatch.StartNew();
+
 while (cellsCount > 0)
 {
     #region analysis
@@ -131,73 +133,73 @@ while (cellsCount > 0)
         switch (direction)
         {
             case 0:
-                if (cellType == 1 && matrix[cordX][cordY - 1] > 0 && matrix[cordX + 1][cordY] == -1)
+                if (cellType == 1 && matrix[cordY - 1][cordX] > 0 && matrix[cordY][cordX + 1] == -1)
                     isWallNorth = true;
-                else if (cellType == 2 && matrix[cordX - 1][cordY] > 0 && matrix[cordX + 1][cordY] == -1)
+                else if (cellType == 2 && matrix[cordY][cordX - 1] > 0 && matrix[cordY][cordX + 1] == -1)
                     isWallWest = true;
-                else if (cellType == 3 && matrix[cordX - 1][cordY] > 0 && matrix[cordX][cordY - 1] == -1)
+                else if (cellType == 3 && matrix[cordY][cordX - 1] > 0 && matrix[cordY - 1][cordX] == -1)
                     isWallWest = true;
                 else if (cellType == 0)
-                    if (matrix[cordX - 1][cordY] > 0 && matrix[cordX][cordY - 1] > 0 && matrix[cordX + 1][cordY] == -1)
+                    if (matrix[cordY][cordX - 1] > 0 && matrix[cordY - 1][cordX] > 0 && matrix[cordY][cordX + 1] == -1)
                     {
                         isWallWest = true;
                         isWallNorth = true;
                     }
-                    else if (matrix[cordX - 1][cordY] > 0 && matrix[cordX][cordY - 1] == -1 && matrix[cordX + 1][cordY] > 0)
+                    else if (matrix[cordY][cordX - 1] > 0 && matrix[cordY - 1][cordX] == -1 && matrix[cordY][cordX + 1] > 0)
                     {
                         isWallWest = true;
                     }
                 break;
             case 90:
-                if (cellType == 2 && matrix[cordX + 1][cordY] > 0 && matrix[cordX][cordY + 1] == -1)
+                if (cellType == 2 && matrix[cordY][cordX + 1] > 0 && matrix[cordY + 1][cordX] == -1)
                     isWallEast = true;
-                else if (cellType == 3 && matrix[cordX][cordY - 1] > 0 && matrix[cordX][cordY + 1] == -1)
+                else if (cellType == 3 && matrix[cordY - 1][cordX] > 0 && matrix[cordY + 1][cordX] == -1)
                     isWallNorth = true;
-                else if (cellType == 4 && matrix[cordX][cordY - 1] > 0 && matrix[cordX + 1][cordY] == -1)
+                else if (cellType == 4 && matrix[cordY - 1][cordX] > 0 && matrix[cordY][cordX + 1] == -1)
                     isWallNorth = true;
                 else if (cellType == 0)
-                    if (matrix[cordX][cordY - 1] > 0 && matrix[cordX + 1][cordY] > 0 && matrix[cordX][cordY + 1] == -1)
+                    if (matrix[cordY - 1][cordX] > 0 && matrix[cordY][cordX + 1] > 0 && matrix[cordY + 1][cordX] == -1)
                     {
                         isWallNorth = true;
                         isWallEast = true;
                     }
-                    else if (matrix[cordX][cordY - 1] > 0 && matrix[cordX + 1][cordY] == -1 && matrix[cordX][cordY + 1] > 0)
+                    else if (matrix[cordY - 1][cordX] > 0 && matrix[cordY][cordX + 1] == -1 && matrix[cordY + 1][cordX] > 0)
                     {
                         isWallNorth = true;
                     }
                 break;
             case 180:
-                if (cellType == 3 && matrix[cordX][cordY + 1] > 0 && matrix[cordX - 1][cordY] == -1)
+                if (cellType == 3 && matrix[cordY + 1][cordX] > 0 && matrix[cordY][cordX - 1] == -1)
                     isWallSouth = true;
-                else if (cellType == 4 && matrix[cordX + 1][cordY] > 0 && matrix[cordX - 1][cordY] == -1)
+                else if (cellType == 4 && matrix[cordY][cordX + 1] > 0 && matrix[cordY][cordX - 1] == -1)
                     isWallEast = true;
-                else if (cellType == 1 && matrix[cordX + 1][cordY] > 0 && matrix[cordX][cordY + 1] == -1)
+                else if (cellType == 1 && matrix[cordY][cordX + 1] > 0 && matrix[cordY + 1][cordX] == -1)
                     isWallEast = true;
                 else if (cellType == 0)
-                    if (matrix[cordX + 1][cordY] > 0 && matrix[cordX][cordY + 1] > 0 && matrix[cordX - 1][cordY] == -1)
+                    if (matrix[cordY][cordX + 1] > 0 && matrix[cordY + 1][cordX] > 0 && matrix[cordY][cordX - 1] == -1)
                     {
                         isWallEast = true;
                         isWallSouth = true;
                     }
-                    else if (matrix[cordX + 1][cordY] > 0 && matrix[cordX][cordY + 1] == -1 && matrix[cordX - 1][cordY] > 0)
+                    else if (matrix[cordY][cordX + 1] > 0 && matrix[cordY + 1][cordX] == -1 && matrix[cordY][cordX - 1] > 0)
                     {
                         isWallEast = true;
                     }
                 break;
             case -90:
-                if (cellType == 4 && matrix[cordX - 1][cordY] > 0 && matrix[cordX][cordY - 1] == -1)
+                if (cellType == 4 && matrix[cordY][cordX - 1] > 0 && matrix[cordY - 1][cordX] == -1)
                     isWallWest = true;
-                else if (cellType == 1 && matrix[cordX][cordY + 1] > 0 && matrix[cordX][cordY - 1] == -1)
+                else if (cellType == 1 && matrix[cordY + 1][cordX] > 0 && matrix[cordY - 1][cordX] == -1)
                     isWallSouth = true;
-                else if (cellType == 2 && matrix[cordX][cordY + 1] > 0 && matrix[cordX - 1][cordY] == -1)
+                else if (cellType == 2 && matrix[cordY + 1][cordX] > 0 && matrix[cordY][cordX - 1] == -1)
                     isWallSouth = true;
                 else if (cellType == 0)
-                    if (matrix[cordX][cordY + 1] > 0 && matrix[cordX - 1][cordY] > 0 && matrix[cordX][cordY - 1] == -1)
+                    if (matrix[cordY + 1][cordX] > 0 && matrix[cordY][cordX - 1] > 0 && matrix[cordY - 1][cordX] == -1)
                     {
                         isWallSouth = true;
                         isWallWest = true;
                     }
-                    else if (matrix[cordX][cordY + 1] > 0 && matrix[cordX - 1][cordY] == -1 && matrix[cordX][cordY - 1] > 0)
+                    else if (matrix[cordY + 1][cordX] > 0 && matrix[cordY][cordX - 1] == -1 && matrix[cordY - 1][cordX] > 0)
                     {
                         isWallSouth = true;
                     }
@@ -256,5 +258,10 @@ while (cellsCount > 0)
     #endregion
 }
 
+watch.Stop();
+var totalSeconds = watch.ElapsedMilliseconds / 1000;
+var minutes = totalSeconds / 60;
+var seconds = totalSeconds % 60;
+
 var score = client.PostAsync("http://127.0.0.1:8801/api/v1/matrix/send?token=" + token, JsonContent.Create(matrix)).Result.Content.ReadAsStringAsync().Result;
-Console.WriteLine(score);
+Console.WriteLine(string.Format($"Time spent: {minutes}:{seconds}    {score}"));
