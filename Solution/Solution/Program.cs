@@ -17,8 +17,7 @@ var cellsCount = 256;
 
 var client = new HttpClient(new HttpClientHandler());
 
-var watch = System.Diagnostics.Stopwatch.StartNew();
-
+#region maze wandering
 while (cellsCount > 0)
 {
     #region analysis
@@ -257,11 +256,8 @@ while (cellsCount > 0)
     await client.PostAsync("http://127.0.0.1:8801/api/v1/robot-cells/forward?token=" + token, null);
     #endregion
 }
+#endregion
 
-watch.Stop();
-var totalSeconds = watch.ElapsedMilliseconds / 1000;
-var minutes = totalSeconds / 60;
-var seconds = totalSeconds % 60;
+await client.PostAsync("http://127.0.0.1:8801/api/v1/maze/restart?token=" + token, JsonContent.Create(matrix));
 
-var score = client.PostAsync("http://127.0.0.1:8801/api/v1/matrix/send?token=" + token, JsonContent.Create(matrix)).Result.Content.ReadAsStringAsync().Result;
-Console.WriteLine(string.Format($"Time spent: {minutes}:{seconds}    {score}"));
+
